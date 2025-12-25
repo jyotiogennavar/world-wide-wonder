@@ -4,12 +4,10 @@
   "scripts": {
     "prebuild": "npm run typegen",
     "build": "next build",
-    "predev": "npm run typegen",
     "dev": "next dev --turbopack",
     "lint": "next lint",
     "start": "next start",
-    "type-check": "tsc --noEmit",
-    "typegen": "sanity typegen generate"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@sanity/client": "^7.13.1",

@@ -96,6 +96,34 @@ Now that you’ve deployed your Next.js application and Sanity Studio, you can o
 
 They will be able to access the deployed Studio, where you can collaborate together on creating content.
 
+## Changelog
+
+This project maintains a detailed changelog in `CHANGELOG.md` that automatically tracks all commits.
+
+### Updating the Changelog
+
+The changelog can be updated automatically using the provided script:
+
+```shell
+npm run changelog
+```
+
+This will:
+- Detect new commits since the last update
+- Add them to the "Unreleased" section
+- Record detailed commit information in the "Commit History" section
+
+### Automatic Updates (Optional)
+
+To automatically update the changelog after each commit, install the git hook:
+
+```shell
+cp scripts/post-commit-hook.sh .git/hooks/post-commit
+chmod +x .git/hooks/post-commit
+```
+
+For more information, see [scripts/README.md](scripts/README.md).
+
 ## Resources
 
 - [Sanity documentation](https://www.sanity.io/docs)
