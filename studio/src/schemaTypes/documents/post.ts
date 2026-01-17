@@ -47,9 +47,6 @@ export const post = defineType({
       type: 'image',
       options: {
         hotspot: true,
-        aiAssist: {
-          imageDescriptionField: 'alt',
-        },
       },
       fields: [
         {
@@ -80,6 +77,26 @@ export const post = defineType({
       title: 'Author',
       type: 'reference',
       to: [{type: 'person'}],
+    }),
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Story', value: 'story' },
+          { title: 'City Guide', value: 'city-guide' },
+          { title: 'Curated List', value: 'curated-list' },
+        ],
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
+      description: 'Mark this post as the featured story on the homepage',
+      initialValue: false,
     }),
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views

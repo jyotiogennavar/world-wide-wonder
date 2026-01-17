@@ -11,6 +11,8 @@ const postFields = /* groq */ `
   coverImage,
   "date": coalesce(date, _updatedAt),
   "author": author->{firstName, lastName, picture},
+  category,
+  featured,
 `
 
 const linkReference = /* groq */ `
@@ -63,6 +65,18 @@ export const sitemapData = defineQuery(`
 
 export const allPostsQuery = defineQuery(`
   *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {
+    ${postFields}
+  }
+`)
+
+export const featuredPostQuery = defineQuery(`
+  *[_type == "post" && featured == true && defined(slug.current)][0] {
+    ${postFields}
+  }
+`)
+
+export const postsByCategoryQuery = defineQuery(`
+  *[_type == "post" && category == $category && defined(slug.current)] | order(date desc) {
     ${postFields}
   }
 `)

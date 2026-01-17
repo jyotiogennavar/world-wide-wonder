@@ -21,25 +21,28 @@ const Post = ({post}: {post: AllPostsQueryResult[number]}) => {
     <article
       data-sanity={attr()}
       key={_id}
-      className="border border-gray-200 rounded-sm p-6 bg-gray-50 flex flex-col justify-between transition-colors hover:bg-white relative"
+      className="group relative bg-white border border-stone-200 rounded-lg p-6 md:p-8 transition-all duration-300 hover:border-stone-300 hover:shadow-sm"
     >
-      <Link className="hover:text-brand underline transition-colors" href={`/posts/${slug}`}>
-        <span className="absolute inset-0 z-10" />
+      <Link className="absolute inset-0 z-10" href={`/posts/${slug}`}>
+        <span className="sr-only">Read {title}</span>
       </Link>
-      <div>
-        <h3 className="text-2xl font-bold mb-4 leading-tight">{title}</h3>
-
-        <p className="line-clamp-3 text-sm leading-6 text-gray-600 max-w-[70ch]">{excerpt}</p>
-      </div>
-      <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
-        {author && author.firstName && author.lastName && (
-          <div className="flex items-center">
+      <div className="flex flex-col h-full">
+        <div className="flex-1">
+          <h3 className="font-serif text-xl md:text-2xl text-stone-900 mb-3 group-hover:text-stone-600 transition-colors leading-snug">
+            {title}
+          </h3>
+          <p className="font-sans text-stone-500 text-sm leading-relaxed line-clamp-3 max-w-[70ch]">
+            {excerpt}
+          </p>
+        </div>
+        <div className="flex items-center justify-between mt-6 pt-5 border-t border-stone-100">
+          {author && author.firstName && author.lastName && (
             <Avatar person={author} small={true} />
-          </div>
-        )}
-        <time className="text-gray-500 text-xs font-mono" dateTime={date}>
-          <DateComponent dateString={date} />
-        </time>
+          )}
+          <time className="font-sans text-stone-400 text-xs" dateTime={date}>
+            <DateComponent dateString={date} />
+          </time>
+        </div>
       </div>
     </article>
   )
@@ -56,12 +59,16 @@ const Posts = ({
 }) => (
   <div>
     {heading && (
-      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+      <h2 className="font-serif text-2xl md:text-3xl text-stone-900 mb-2">
         {heading}
       </h2>
     )}
-    {subHeading && <p className="mt-2 text-lg leading-8 text-gray-600">{subHeading}</p>}
-    <div className="pt-6 space-y-6">{children}</div>
+    {subHeading && (
+      <p className="font-sans text-stone-500 text-base mb-8">
+        {subHeading}
+      </p>
+    )}
+    <div className="grid gap-6 md:grid-cols-2">{children}</div>
   </div>
 )
 
@@ -76,7 +83,7 @@ export const MorePosts = async ({skip, limit}: {skip: string; limit: number}) =>
   }
 
   return (
-    <Posts heading={`Recent Posts (${data?.length})`}>
+    <Posts heading="More Stories" subHeading="Continue exploring">
       {data?.map((post: any) => (
         <Post key={post._id} post={post} />
       ))}
@@ -93,8 +100,8 @@ export const AllPosts = async () => {
 
   return (
     <Posts
-      heading="Recent Posts"
-      subHeading={`${data.length === 1 ? 'This blog post is' : `These ${data.length} blog posts are`} populated from your Sanity Studio.`}
+      heading="Recent Stories"
+      subHeading="Personal narratives shaped by memory, emotion, and observation."
     >
       {data.map((post: any) => (
         <Post key={post._id} post={post} />

@@ -14,7 +14,7 @@ const navItems = [
   {href: '#about', label: 'About'},
 ]
 
-export default function Navbar({title = 'Journal'}: NavbarProps) {
+export default function Navbar({title = 'World Wide Wanderer'}: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
