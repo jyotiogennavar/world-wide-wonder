@@ -69,7 +69,7 @@ export default async function PostPage(props: Props) {
 
   return (
     <div className="min-h-screen">
-      <Navbar title="Journal" />
+      <Navbar title="World Wide Wanderer" />
 
       {/* Article Header */}
       <article className="px-6 pt-32 pb-16 md:pt-44 md:pb-24">
@@ -113,7 +113,7 @@ export default async function PostPage(props: Props) {
 
         {/* Article Content */}
         {post.content?.length && (
-          <div className="max-w-2xl mx-auto mt-12 md:mt-16">
+          <div className="max-w-3xl mx-auto mt-12 md:mt-16">
             <PortableText 
               className="font-sans text-stone-700 leading-relaxed" 
               value={post.content as PortableTextBlock[]} 
@@ -136,7 +136,7 @@ export default async function PostPage(props: Props) {
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row md:justify-between md:items-end gap-8">
           <div>
             <Link href="/" className="font-serif text-xl text-stone-900 hover:text-stone-600 transition-colors">
-              Journal
+              World Wide Wanderer
             </Link>
             <p className="font-sans text-stone-500 leading-relaxed max-w-sm mt-4">
               A personal project exploring travel through stories,
