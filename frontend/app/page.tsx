@@ -39,7 +39,7 @@ export default async function Page() {
       <Navbar title="World Wide Wanderer" />
       
       {/* Hero Section */}
-      <section className="px-6 pt-32 pb-0 md:pt-44 relative overflow-hidden">
+      <section className="px-4 pt-32 pb-0 md:pt-44 relative overflow-hidden">
         <div className="max-w-3xl mx-auto text-center mb-8 md:mb-12">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-stone-900 mb-8">
             Stories of places, people, and passing moments
