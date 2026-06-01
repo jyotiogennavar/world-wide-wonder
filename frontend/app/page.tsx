@@ -39,7 +39,7 @@ export default async function Page() {
       <Navbar title="World Wide Wanderer" />
       
       {/* Hero Section */}
-      <section className="px-4 pt-32 pb-0 md:pt-44 relative overflow-hidden">
+      <section className="px-4 pt-8 pb-0 md:pt-12 relative overflow-hidden">
         <div className="max-w-3xl mx-auto text-center mb-8 md:mb-12">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-stone-900 mb-8">
             Stories of places, people, and passing moments
@@ -244,7 +244,7 @@ export default async function Page() {
       )}
 
       {/* Newsletter CTA */}
-      <section className="px-6 py-20 md:py-28 border-t border-stone-200 bg-stone-100/50">
+      <section id="subscribe" className="px-6 py-20 md:py-28 border-t border-stone-200 bg-stone-100/50 scroll-mt-28">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-serif text-3xl md:text-4xl text-stone-900 mb-4">
             Follow the Journey

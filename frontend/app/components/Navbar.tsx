@@ -14,19 +14,22 @@ const navItems = [
   {href: '#about', label: 'About'},
 ]
 
+function LogoPlaceholder() {
+  return (
+    <svg
+      viewBox="0 0 28 28"
+      className="h-7 w-7 text-stone-900"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="14" r="7" fill="none" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="17" cy="14" r="7" fill="none" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
+
 export default function Navbar({title = 'World Wide Wanderer'}: NavbarProps) {
-  const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Close mobile menu on resize to desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -37,7 +40,6 @@ export default function Navbar({title = 'World Wide Wanderer'}: NavbarProps) {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden'
@@ -61,88 +63,114 @@ export default function Navbar({title = 'World Wide Wanderer'}: NavbarProps) {
 
   return (
     <>
-      <nav
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled || mobileMenuOpen
-            ? 'bg-stone-50/80 backdrop-blur-md border-b border-stone-200/50'
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="max-w-5xl mx-auto px-6 flex h-20 items-center justify-between">
-          <Link
-            className="font-serif text-xl tracking-tight text-stone-900 hover:text-stone-600 transition-colors"
-            href="/"
-          >
-            {title}
-          </Link>
+      <nav className="relative z-50">
+        <div className="mx-auto max-w-5xl px-6">
+          {/* Top row: logo, title, subscribe */}
+          <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center">
+            <Link href="/" className="justify-self-start" aria-label="Home">
+              <LogoPlaceholder />
+            </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-10">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => handleClick(e, item.href)}
-                className="font-sans text-sm text-stone-500 hover:text-stone-900 transition-colors"
+            <Link
+              href="/"
+              className="font-serif text-xl tracking-tight text-stone-900 transition-colors hover:text-stone-600 md:text-2xl"
+            >
+              {title}
+            </Link>
+
+            <div className="flex items-center justify-end gap-3">
+              <Link
+                href="#subscribe"
+                onClick={(e) => handleClick(e, '#subscribe')}
+                className="hidden rounded-md bg-stone-900 px-4 py-2 font-sans text-sm font-medium text-white transition-colors hover:bg-stone-800 sm:inline-flex"
               >
-                {item.label}
-              </a>
-            ))}
+                Subscribe
+              </Link>
+
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileMenuOpen}
+              >
+                <span
+                  className={`block h-0.5 w-6 bg-stone-900 transition-all duration-300 ${
+                    mobileMenuOpen ? 'translate-y-2 rotate-45' : ''
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 w-6 bg-stone-900 transition-all duration-300 ${
+                    mobileMenuOpen ? 'opacity-0' : ''
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 w-6 bg-stone-900 transition-all duration-300 ${
+                    mobileMenuOpen ? '-translate-y-2 -rotate-45' : ''
+                  }`}
+                />
+              </button>
+            </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileMenuOpen}
-          >
-            <span
-              className={`block w-6 h-0.5 bg-stone-900 transition-all duration-300 ${
-                mobileMenuOpen ? 'rotate-45 translate-y-2' : ''
-              }`}
-            />
-            <span
-              className={`block w-6 h-0.5 bg-stone-900 transition-all duration-300 ${
-                mobileMenuOpen ? 'opacity-0' : ''
-              }`}
-            />
-            <span
-              className={`block w-6 h-0.5 bg-stone-900 transition-all duration-300 ${
-                mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
-              }`}
-            />
-          </button>
+          {/* Bottom row: nav links */}
+          <div className="hidden border-t border-stone-200/60 md:block">
+            <div className="flex items-center justify-center gap-10 py-3">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => handleClick(e, item.href)}
+                  className="font-sans text-sm text-stone-500 transition-colors hover:text-stone-900"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile menu overlay */}
       <div
         className={`fixed inset-0 z-40 bg-stone-50 transition-all duration-300 md:hidden ${
           mobileMenuOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
+            ? 'pointer-events-auto opacity-100'
+            : 'pointer-events-none opacity-0'
         }`}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-8 px-6">
+        <div className="flex h-full flex-col items-center justify-center gap-8 px-6">
           {navItems.map((item, index) => (
-            <a
+            <Link
               key={item.href}
               href={item.href}
               onClick={(e) => handleClick(e, item.href)}
-              className={`font-serif text-3xl text-stone-900 hover:text-stone-500 transition-all duration-300 ${
+              className={`font-serif text-3xl text-stone-900 transition-all duration-300 hover:text-stone-500 ${
                 mobileMenuOpen
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-4'
+                  ? 'translate-y-0 opacity-100'
+                  : 'translate-y-4 opacity-0'
               }`}
               style={{
                 transitionDelay: mobileMenuOpen ? `${index * 75}ms` : '0ms',
               }}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
+          <Link
+            href="#subscribe"
+            onClick={(e) => handleClick(e, '#subscribe')}
+            className={`mt-4 rounded-md bg-stone-900 px-6 py-3 font-sans text-sm font-medium text-white transition-all duration-300 hover:bg-stone-800 ${
+              mobileMenuOpen
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-4 opacity-0'
+            }`}
+            style={{
+              transitionDelay: mobileMenuOpen ? `${navItems.length * 75}ms` : '0ms',
+            }}
+          >
+            Subscribe
+          </Link>
         </div>
       </div>
     </>

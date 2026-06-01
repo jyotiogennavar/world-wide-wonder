@@ -72,7 +72,7 @@ export default async function PostPage(props: Props) {
       <Navbar title="World Wide Wanderer" />
 
       {/* Article Header */}
-      <article className="px-6 pt-32 pb-16 md:pt-44 md:pb-24">
+      <article className="px-6 pt-8 pb-16 md:pt-12 md:pb-24">
         <div className="max-w-3xl mx-auto">
           {/* Back Link */}
           <Link 
