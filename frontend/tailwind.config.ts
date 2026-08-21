@@ -2,7 +2,7 @@ import type {Config} from 'tailwindcss'
 import typography from '@tailwindcss/typography'
 
 export default {
-  content: ['./app/**/*.{ts,tsx}', './sanity/**/*.{ts,tsx}'],
+  content: ['./src/app/**/*.{ts,tsx}', './src/components/**/*.{ts,tsx}', './src/features/**/*.{ts,tsx}', './src/sanity/**/*.{ts,tsx}'],
   theme: {
     container: {
       center: true,

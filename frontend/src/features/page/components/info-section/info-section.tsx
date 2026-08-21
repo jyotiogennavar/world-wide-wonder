@@ -1,0 +1,31 @@
+import {type PortableTextBlock} from 'next-sanity'
+
+import {CustomPortableText} from '@/sanity'
+import {InfoSection} from '@/sanity/types'
+
+type InfoSectionProps = {
+  block: InfoSection
+  index: number
+}
+
+export default function InfoSectionBlock({block}: InfoSectionProps) {
+  return (
+    <div className="container my-12">
+      <div className="max-w-3xl">
+        {block?.heading && (
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">{block.heading}</h2>
+        )}
+        {block?.subheading && (
+          <span className="block mt-4 mb-8 text-lg uppercase font-light text-gray-900/70">
+            {block.subheading}
+          </span>
+        )}
+        <div className="mt-4">
+          {block?.content?.length && (
+            <CustomPortableText className="" value={block.content as PortableTextBlock[]} />
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
