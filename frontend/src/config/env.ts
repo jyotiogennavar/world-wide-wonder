@@ -19,5 +19,3 @@ export const sanityDataset = assertValue(
 export const sanityApiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2025-09-25'
 
 export const sanityStudioUrl = process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || 'http://localhost:3333'
-
-export const sanityApiReadToken = process.env.SANITY_API_READ_TOKEN

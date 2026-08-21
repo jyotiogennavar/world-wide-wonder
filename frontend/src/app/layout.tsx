@@ -7,8 +7,10 @@ import {draftMode} from 'next/headers'
 import {toPlainText, VisualEditing} from 'next-sanity'
 import {Toaster} from 'sonner'
 
-import {DraftModeToast, getSettings, handleSanityError, resolveOpenGraphImage, SanityLive} from '@/sanity'
+import {DraftModeToast, handleSanityError, resolveOpenGraphImage} from '@/sanity'
 import * as demo from '@/sanity/lib/demo'
+import {SanityLive} from '@/sanity/lib/live'
+import {getSettings} from '@/sanity/queries/settings'
 
 export async function generateMetadata(): Promise<Metadata> {
   const {data: settings} = await getSettings()

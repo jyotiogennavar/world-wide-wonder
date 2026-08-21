@@ -1,8 +1,5 @@
 export {CustomPortableText} from './components/portable-text'
 export {DraftModeToast} from './components/draft-mode-toast'
 export {ResolvedLink} from './components/resolved-link'
-export {SanityLive} from './lib/live'
 export {handleSanityError} from './lib/handle-error'
 export {getImageUrl, resolveOpenGraphImage, urlForImage} from './lib/image'
-export {getSettings} from './queries/settings'
-export {getSitemapEntries} from './queries/sitemap'

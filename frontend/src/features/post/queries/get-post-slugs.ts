@@ -14,5 +14,5 @@ export async function getPostSlugs() {
     stega: false,
   })
 
-  return data
+  return data ?? []
 }

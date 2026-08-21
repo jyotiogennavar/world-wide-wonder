@@ -1,4 +1,4 @@
-import type {Link} from '@/sanity/types'
+import type {Link} from '../types'
 
 export function linkResolver(link: Link | undefined | null) {
   if (!link) {

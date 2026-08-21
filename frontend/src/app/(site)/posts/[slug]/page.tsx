@@ -91,7 +91,9 @@ export default async function PostPage(props: Props) {
 
       <div className="border-t border-stone-200 bg-stone-100/50">
         <div className="max-w-5xl mx-auto px-6 py-16 md:py-24">
-          <Suspense>{await MorePosts({skip: post.id, limit: 2})}</Suspense>
+          <Suspense fallback={null}>
+            <MorePosts skip={post.id} limit={2} />
+          </Suspense>
         </div>
       </div>
     </>

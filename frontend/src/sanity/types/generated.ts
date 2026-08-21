@@ -201,6 +201,8 @@ export type Post = {
     _weak?: boolean
     [internalGroqTypeReferenceTo]?: 'person'
   }
+  category: 'story' | 'city-guide' | 'curated-list'
+  featured?: boolean
 }
 
 export type Person = {
@@ -230,141 +232,6 @@ export type Slug = {
   _type: 'slug'
   current: string
   source?: string
-}
-
-export type SanityAssistInstructionTask = {
-  _type: 'sanity.assist.instructionTask'
-  path?: string
-  instructionKey?: string
-  started?: string
-  updated?: string
-  info?: string
-}
-
-export type SanityAssistTaskStatus = {
-  _type: 'sanity.assist.task.status'
-  tasks?: Array<
-    {
-      _key: string
-    } & SanityAssistInstructionTask
-  >
-}
-
-export type SanityAssistSchemaTypeAnnotations = {
-  _type: 'sanity.assist.schemaType.annotations'
-  title?: string
-  fields?: Array<
-    {
-      _key: string
-    } & SanityAssistSchemaTypeField
-  >
-}
-
-export type SanityAssistOutputType = {
-  _type: 'sanity.assist.output.type'
-  type?: string
-}
-
-export type SanityAssistOutputField = {
-  _type: 'sanity.assist.output.field'
-  path?: string
-}
-
-export type SanityAssistInstructionContext = {
-  _type: 'sanity.assist.instruction.context'
-  reference: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'assist.instruction.context'
-  }
-}
-
-export type AssistInstructionContext = {
-  _id: string
-  _type: 'assist.instruction.context'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  context?: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }>
-    style?: 'normal'
-    listItem?: never
-    markDefs?: null
-    level?: number
-    _type: 'block'
-    _key: string
-  }>
-}
-
-export type SanityAssistInstructionUserInput = {
-  _type: 'sanity.assist.instruction.userInput'
-  message: string
-  description?: string
-}
-
-export type SanityAssistInstructionPrompt = Array<{
-  children?: Array<
-    | {
-        marks?: Array<string>
-        text?: string
-        _type: 'span'
-        _key: string
-      }
-    | ({
-        _key: string
-      } & SanityAssistInstructionFieldRef)
-    | ({
-        _key: string
-      } & SanityAssistInstructionContext)
-    | ({
-        _key: string
-      } & SanityAssistInstructionUserInput)
-  >
-  style?: 'normal'
-  listItem?: never
-  markDefs?: null
-  level?: number
-  _type: 'block'
-  _key: string
-}>
-
-export type SanityAssistInstructionFieldRef = {
-  _type: 'sanity.assist.instruction.fieldRef'
-  path?: string
-}
-
-export type SanityAssistInstruction = {
-  _type: 'sanity.assist.instruction'
-  prompt?: SanityAssistInstructionPrompt
-  icon?: string
-  title?: string
-  userId?: string
-  createdById?: string
-  output?: Array<
-    | ({
-        _key: string
-      } & SanityAssistOutputField)
-    | ({
-        _key: string
-      } & SanityAssistOutputType)
-  >
-}
-
-export type SanityAssistSchemaTypeField = {
-  _type: 'sanity.assist.schemaType.field'
-  path?: string
-  instructions?: Array<
-    {
-      _key: string
-    } & SanityAssistInstruction
-  >
 }
 
 export type SanityImagePaletteSwatch = {
@@ -475,18 +342,6 @@ export type AllSanitySchemaTypes =
   | Post
   | Person
   | Slug
-  | SanityAssistInstructionTask
-  | SanityAssistTaskStatus
-  | SanityAssistSchemaTypeAnnotations
-  | SanityAssistOutputType
-  | SanityAssistOutputField
-  | SanityAssistInstructionContext
-  | AssistInstructionContext
-  | SanityAssistInstructionUserInput
-  | SanityAssistInstructionPrompt
-  | SanityAssistInstructionFieldRef
-  | SanityAssistInstruction
-  | SanityAssistSchemaTypeField
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -563,7 +418,46 @@ export type GetPageQueryResult = {
 // Source: ./src/features/post/queries/get-featured-post.ts
 // Variable: featuredPostQuery
 // Query: *[_type == "post" && featured == true && defined(slug.current)][0] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  category,  featured,  }
-export type FeaturedPostQueryResult = null
+export type FeaturedPostQueryResult = {
+  _id: string
+  status: 'draft' | 'published'
+  title: string
+  slug: string
+  excerpt: string | null
+  coverImage: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  } | null
+  date: string
+  author: {
+    firstName: string
+    lastName: string
+    picture: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    }
+  } | null
+  category: 'city-guide' | 'curated-list' | 'story'
+  featured: boolean | null
+} | null
 
 // Source: ./src/features/post/queries/get-more-posts.ts
 // Variable: morePostsQuery
@@ -605,8 +499,8 @@ export type MorePostsQueryResult = Array<{
       _type: 'image'
     }
   } | null
-  category: null
-  featured: null
+  category: 'city-guide' | 'curated-list' | 'story'
+  featured: boolean | null
 }>
 
 // Source: ./src/features/post/queries/get-post-slugs.ts
@@ -678,8 +572,8 @@ export type PostQueryResult = {
       _type: 'image'
     }
   } | null
-  category: null
-  featured: null
+  category: 'city-guide' | 'curated-list' | 'story'
+  featured: boolean | null
 } | null
 
 // Source: ./src/features/post/queries/get-posts-by-category.ts
@@ -722,8 +616,8 @@ export type PostsByCategoryQueryResult = Array<{
       _type: 'image'
     }
   } | null
-  category: null
-  featured: null
+  category: 'city-guide' | 'curated-list' | 'story'
+  featured: boolean | null
 }>
 
 // Source: ./src/features/post/queries/get-posts.ts
@@ -766,8 +660,8 @@ export type AllPostsQueryResult = Array<{
       _type: 'image'
     }
   } | null
-  category: null
-  featured: null
+  category: 'city-guide' | 'curated-list' | 'story'
+  featured: boolean | null
 }>
 
 // Source: ./src/sanity/queries/settings.ts

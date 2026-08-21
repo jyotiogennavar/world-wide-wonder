@@ -9,6 +9,12 @@ export type PostImage = {
     left?: number
     right?: number
   } | null
+  hotspot?: {
+    x?: number
+    y?: number
+    height?: number
+    width?: number
+  } | null
 }
 
 export type PostAuthor = {

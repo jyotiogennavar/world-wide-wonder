@@ -1,11 +1,12 @@
 import type {PortableTextBlock} from 'next-sanity'
 
-import type {PostAuthor, PostDetail, PostImage, PostSummary} from '@/features/post/types'
+import type {PostAuthor, PostDetail, PostImage, PostSummary} from '../types'
 
 type SanityImage = {
   alt?: string | null
   asset?: {_ref?: string} | null
   crop?: PostImage['crop']
+  hotspot?: PostImage['hotspot']
 } | null
 
 type SanityAuthor = {
@@ -36,6 +37,7 @@ function mapImage(image: SanityImage): PostImage | null {
     alt: image.alt ?? null,
     asset: image.asset ?? null,
     crop: image.crop ?? null,
+    hotspot: image.hotspot ?? null,
   }
 }
 

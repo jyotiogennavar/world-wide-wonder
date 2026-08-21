@@ -14,5 +14,5 @@ export async function getPageSlugs() {
     stega: false,
   })
 
-  return data
+  return data ?? []
 }

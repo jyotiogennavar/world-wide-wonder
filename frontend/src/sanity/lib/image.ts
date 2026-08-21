@@ -10,9 +10,17 @@ type ImageCrop = {
   right?: number
 }
 
+type ImageHotspot = {
+  x?: number
+  y?: number
+  height?: number
+  width?: number
+}
+
 type ImageSource = {
   asset?: {_ref?: string} | null
   crop?: ImageCrop | null
+  hotspot?: ImageHotspot | null
   alt?: string | null
 }
 

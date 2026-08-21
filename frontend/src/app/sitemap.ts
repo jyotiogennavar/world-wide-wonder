@@ -1,16 +1,23 @@
 import {MetadataRoute} from 'next'
 import {headers} from 'next/headers'
 
-import {getSitemapEntries} from '@/sanity'
+import {getSitemapEntries} from '@/sanity/queries/sitemap'
+
+function getSiteOrigin(headerList: Headers) {
+  const host = headerList.get('host') ?? 'localhost:3000'
+  const protocol =
+    headerList.get('x-forwarded-proto') ?? (host.includes('localhost') ? 'http' : 'https')
+
+  return `${protocol}://${host}`
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const allPostsAndPages = await getSitemapEntries()
-  const headersList = await headers()
+  const origin = getSiteOrigin(await headers())
   const entries: MetadataRoute.Sitemap = []
-  const domain = headersList.get('host') as string
 
   entries.push({
-    url: domain,
+    url: origin,
     lastModified: new Date(),
     priority: 1,
     changeFrequency: 'monthly',
@@ -24,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: page._updatedAt || new Date(),
         priority: isPage ? 0.8 : 0.5,
         changeFrequency: isPage ? 'monthly' : 'never',
-        url: isPage ? `${domain}/${page.slug}` : `${domain}/posts/${page.slug}`,
+        url: isPage ? `${origin}/${page.slug}` : `${origin}/posts/${page.slug}`,
       })
     }
   }
